@@ -1,52 +1,83 @@
 #include <iostream>
 #include <vector>
-
+#include <queue>
 
 using namespace std;
 
-int find(int x, vector<int> adj) {
-	if (adj[x] == x) return x;
-	return find(adj[x], adj);
-}
+int solution(int N, vector<vector<int>> info, vector<vector<int>> game) {
+	vector<bool> know_b(N, false); // 전략을 아는 사람 체크
+	queue<int> q; // BFS를 위한 큐
 
-vector<int> unionFunc(int a, int b, vector<int> adj) {
-	a = find(a, adj);
-	b = find(b, adj);
-	if (a != b) adj[b] = a;
-
-	return adj;
-}
-
-int solution(int participant, vector<vector<int>> info, vector<vector<int>> game) {
-
-	int result = 0;
-
-	vector<int> adj(participant);
-
-	for (int i = 0; i < participant; i++) {
-		adj[i] = i;
+	// 전략을 아는 사람들 초기화
+	for (int person : info[1]) {
+		know_b[person] = true;
+		q.push(person);
 	}
 
-	for (int i = 0; i < game.size(); i++) {
-		int first = game[i][0];
-		for (int j = 1; j < game[i].size(); j++) {
-			adj = unionFunc(first, game[i][j], adj);
+	while (!q.empty()) {
+		int person = q.front();
+		q.pop();
+
+		for (int i = 0; i < game.size(); i++) 
+		{
+			// 경기 중 전략을 아는 사람이 있으면, 모든 참가자에게 전파
+			bool found = false;
+			for (int j = 0; j < game[i].size(); j++) 
+			{
+				if (know_b[game[i][j]] == true) 
+				{
+					found = true;
+					break;
+				}
+			}
+			if (found) 
+			{
+				for (int j = 0; j < game[i].size(); j++) 
+				{
+					if (know_b[game[i][j]] == false) 
+					{
+						know_b[game[i][j]] = true;
+						q.push(game[i][j]);
+					}
+				}
+			}
 		}
 	}
 
-	for (int i = 0; i < game.size(); i++) {
-		bool isChecked = true;
-		int cur = game[i][0];
-		for (int j = 0; j < info[1].size(); j++) {
-			if (find(cur, adj) == find(info[1][j], adj)) {
-				isChecked = false;
+	// 전략을 모르는 사람이 있는 게임 카운트
+	int result = 0;
+	for (int i = 0; i < game.size(); i++) 
+	{
+		bool knows_strategy = false;
+		for (int j = 0; j < game[i].size(); j++) 
+		{
+			if (know_b[game[i][j]] == true)
+			{
+				knows_strategy = true;
 				break;
 			}
 		}
-		if (isChecked) result++;
+		if (knows_strategy == false) result++;
 	}
-
-	int answer = result;
-	return answer;
+	return result;
 }
 
+
+// 테스트 코드
+int main() {
+    int N1 = 5;
+    vector<vector<int>> info1 = {{1}, {4}};
+    vector<vector<int>> game1 = {{1, 2}, {3}, {3, 4}};
+
+    int ret1 = solution(N1, info1, game1);
+    cout << "solution 함수의 반환 값은 " << ret1 << " 입니다." << endl;
+
+    int N2 = 7;
+    vector<vector<int>> info2 = {{3}, {1, 2, 3}};
+    vector<vector<int>> game2 = {{1}, {2}, {3}, {4}, {5}, {6}, {4, 5}, {3, 6}};
+
+    int ret2 = solution(N2, info2, game2);
+    cout << "solution 함수의 반환 값은 " << ret2 << " 입니다." << endl;
+
+    return 0;
+}
