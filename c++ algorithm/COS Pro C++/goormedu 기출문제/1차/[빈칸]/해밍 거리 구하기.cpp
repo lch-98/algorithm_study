@@ -6,7 +6,7 @@
 using namespace std;
 string func_a(string str, int len){
     string padZero = "";
-    int padSize = len - str.length();
+    int padSize = len - str.length(); // 이 부분
     for(int i = 0; i < padSize; i++)
         padZero += "0";
     return padZero + str;
@@ -19,7 +19,7 @@ int solution(string binaryA, string binaryB) {
     
     int hamming_distance = 0;
     for(int i = 0; i < max_length; i++)
-        if(binaryA[i] != binaryB[i])
+        if(binaryA[i] != binaryB[i]) // 이 부분
             hamming_distance += 1;
     return hamming_distance;
 }

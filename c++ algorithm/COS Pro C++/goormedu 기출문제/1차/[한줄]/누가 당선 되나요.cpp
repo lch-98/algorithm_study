@@ -24,7 +24,7 @@ vector<int> solution(int N, vector<int> votes) {
 	vector<int> answer(cnt, 0);
 	for (int i = 1, idx = 0; i <= N; i++) {
 		if (vote_counter[i] == max_val) {
-			answer[idx] = i;
+			answer[idx] = i; // 여기가 틀린 부분
 			idx += 1;
 		}
 	}
