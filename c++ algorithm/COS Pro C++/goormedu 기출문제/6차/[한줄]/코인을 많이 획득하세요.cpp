@@ -5,8 +5,8 @@
 using namespace std;
 
 int solution(vector<vector<int>> board) {
+	  
     int answer = 0;
-
     vector<vector<int>> coins(4, vector<int>(4, 0));
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
@@ -17,7 +17,7 @@ int solution(vector<vector<int>> board) {
             else if(i != 0 && j == 0)
                 coins[i][j] = board[i][j] + coins[i-1][j];
             else
-                coins[i][j] = board[i][j] + max(coins[i-1][j], coins[i][j-1]); //이 부분이 틀렸던 부분
+                coins[i][j] = board[i][j] + max(coins[i][j-1], coins[i-1][j]);
         }
     }
 
