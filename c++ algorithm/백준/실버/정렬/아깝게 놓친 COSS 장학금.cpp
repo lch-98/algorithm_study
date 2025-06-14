@@ -14,9 +14,13 @@ struct Person {
 };
 
 bool compare(const Person& a, const Person& b) {
-	if (a.value != b.value) return a.value > b.value;         
-	if (a.cost != b.cost) return a.cost < b.cost;             
-	return a.name < b.name;                                   
+	if (a.value == b.value) {
+		if (a.cost == b.cost) {
+			return a.name < b.name;
+		}
+		return a.cost < b.cost;
+	}
+	return a.value > b.value;
 }
 
 int main() {
