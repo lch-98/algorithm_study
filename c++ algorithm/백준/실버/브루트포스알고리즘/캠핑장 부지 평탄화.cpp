@@ -1,4 +1,4 @@
-// 한양대학교 HEPC 문제
+// 한양대학교 Erica HEPC 문제
 #include <iostream>
 #include <vector>
 using namespace std;
