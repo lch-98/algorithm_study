@@ -11,12 +11,12 @@ bool compare(pair<vector<int>, int> &a, pair<vector<int>, int> &b) {
 
 vector<int> solution(string s) {
     vector<int> answer;
-    vector<pair<vector<int>, int>> NarrAndSize; // 요소들이 담긴 배열 및 사이즈 즉, n-튜플
+    vector<pair<vector<int>, int>> NarrAndSize; // 요소들이 담긴 배열 및 사이즈 -> n-튜플 배열
 
     for (int i = 1; i < s.length() - 1; i++) {
         if (s[i] == '{') {
             string str = "";
-            vector<int> n_arr; // 괄호가 열린시점으로부터 닫힐때까지 n개 요소를 가진 튜플
+            vector<int> n_arr; // 괄호가 열린시점으로부터 닫힐때까지 n개 요소를 가진 튜플 즉, n-튜플
             for (int j = i + 1; j < s.length() - 1; j++) {
                 if ('0' <= s[j] && s[j] <= '9') str += s[j];
                 else if (s[j] == ',') {
@@ -26,7 +26,7 @@ vector<int> solution(string s) {
                 }
                 else if (s[j] == '}') {
                     n_arr.push_back(stoi(str));
-                    NarrAndSize.push_back({ n_arr, n_arr.size() }); // 튜플을, n-튜플에 넣어줌
+                    NarrAndSize.push_back({ n_arr, n_arr.size() }); // n-튜플을, n-튜플 배열에 넣어줌
                     i = j;
                     break;
                 }
